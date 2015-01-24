@@ -2,6 +2,8 @@
 var dest = "build";
 var src = "client";
 
+var jsxSource = src + "/**/*.jsx";
+var jsxDestination = dest + "/js";
 var sassSource = src + "/scss/*.{sass,scss}";
 var sassDestination = dest + "/css";
 var assetsSource = src + "/assets/**";
@@ -41,6 +43,11 @@ module.exports = {
     proxyOptions: {
       proxy: 'localhost:8000'
     }
+  },
+
+  jsx: {
+    src: jsxSource,
+    dest: jsxDestination
   },
 
   sass: {
@@ -83,7 +90,7 @@ module.exports = {
     // A separate bundle will be generated for each
     // bundle config in the list below
     bundleConfigs: [{
-      entries: './' + src + '/js/index.js',
+      entries: './' + src + '/jsx/main.jsx',
       dest: dest + '/js',
       outputName: 'app.js'
     }]
@@ -92,7 +99,7 @@ module.exports = {
   jshint: {
     src: [
       'gulpfile.js',
-      './client/js/index.js',
+      // './client/js/index.js',
       './client/js/**/*.js'
     ]
   },

@@ -1,26 +1,27 @@
 from rest_framework import viewsets
+from rest_framework.renderers import JSONRenderer
 
-from books.api.serializers import (CanonicalBookSerializer,
+from books.api.serializers import (BookSerializer,
                                    EditionSerializer,
                                    AuthorSerializer,
                                    PublisherSerializer
                                    )
-from books.models import CanonicalBook, Author, Publisher, BookEdition
+from books.models import Book, Author, Publisher, Edition
 
 
-class CanonicalBookViewSet(viewsets.ModelViewSet):
+class BookViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows books to be viewed or edited.
     """
-    queryset = CanonicalBook.objects.all()
-    serializer_class = CanonicalBookSerializer
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
 
 
-class BookEditionViewSet(viewsets.ModelViewSet):
+class EditionViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows book editions to be viewed or edited.
     """
-    queryset = BookEdition.objects.all()
+    queryset = Edition.objects.all()
     serializer_class = EditionSerializer
 
 

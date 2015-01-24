@@ -1,10 +1,14 @@
 {% load staticfiles %}
-
+<!doctype html>
 <html>
 <head>
-	<link href='{% static 'css/main.css' %}' rel='stylesheet' type='text/css'>
+	<title>Todo app</title>
+	<link href="{% static 'css/main.css' %}" 	   rel='stylesheet'
+		  type='text/css'>
+
 </head>
 <body>
-Hello From Base Core
+<script src="{% static 'js/vendor/mithril/mithril.min.js' %}"></script>
+<script src="{% static 'js/jsx/main.js' %}"></script>
 </body>
 </html>

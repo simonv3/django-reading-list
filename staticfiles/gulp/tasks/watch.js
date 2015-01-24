@@ -12,6 +12,7 @@ gulp.task('watch', ['build'], function() {
   gulp.watch(config.sass.src,   ['sass']);
   gulp.watch(config.assets.src, ['assets']);
   gulp.watch(config.templates.src, ['templates']);
-  gulp.watch(config.clientDir + '/js/**', ['jshint', 'test']);
+  gulp.watch(config.jsx.src, ['transform-jsx', 'jshint', 'test']);
+  // gulp.watch(config.clientDir + '/js/**', ['jshint', 'test']);
 });
 

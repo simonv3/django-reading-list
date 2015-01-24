@@ -110,7 +110,21 @@ USE_TZ = True
 # Django Rest Framework Settings
 # http://www.django-rest-framework.org/api-guide/settings/
 
-REST_FRAMEWORK = {}
+REST_FRAMEWORK = {
+    'URL_FIELD_NAME': 'href',  # Follow JSON API standard
+    'DEFAULT_RENDERER_CLASSES': (
+        # 'rest_framework.renderers.JSONRenderer',
+        "rest_framework_json_api.renderers.JsonApiRenderer",
+        "rest_framework.renderers.BrowsableAPIRenderer",
+        # Any other renderers
+    ),
+    "DEFAULT_PARSER_CLASSES": (
+        # "rest_framework_json_api.parsers.JsonApiParser",
+        "rest_framework.parsers.FormParser",
+        "rest_framework.parsers.MultiPartParser",
+        # Any other parsers
+    ),
+}
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/

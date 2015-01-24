@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views import generic
 
-from books.models import CanonicalBook, Author, Publisher
+from books.models import Book, Author, Publisher
 
 
 class BookListView(generic.ListView):
@@ -10,4 +10,4 @@ class BookListView(generic.ListView):
 
     def get_queryset(self):
         """Return the last five published books."""
-        return CanonicalBook.objects.order_by('-pub_date')[:10]
+        return Book.objects.order_by('-pub_date')[:10]

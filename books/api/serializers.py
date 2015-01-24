@@ -1,14 +1,14 @@
 # from django.contrib.auth.models import User, Group
 from rest_framework import serializers
 
-from books.models import (CanonicalBook, Author, Publisher, BookEdition,
+from books.models import (Book, Author, Publisher, Edition,
                           BookExtra)
 
 
 class ExtraSerializer(serializers.ModelSerializer):
-    value = serializers.SerializerMethodField()
+    value = serializers.SerializerMethodField('get_value')
     book = serializers.PrimaryKeyRelatedField(
-        queryset=BookEdition.objects.all()
+        queryset=Edition.objects.all()
     )
 
     class Meta:
@@ -19,9 +19,9 @@ class ExtraSerializer(serializers.ModelSerializer):
         return obj.get_value()
 
 
-class EditionSerializer(serializers.HyperlinkedModelSerializer):
+class EditionSerializer(serializers.ModelSerializer):
     book = serializers.PrimaryKeyRelatedField(
-        queryset=CanonicalBook.objects.all()
+        queryset=Book.objects.all()
     )
     extras = ExtraSerializer(many=True, read_only=True)
     publisher = serializers.PrimaryKeyRelatedField(
@@ -37,29 +37,37 @@ class EditionSerializer(serializers.HyperlinkedModelSerializer):
     )
 
     class Meta:
-        model = BookEdition
-        fields = ('url', 'id', 'book', 'edition_name', 'pub_date', 'extras',
+        model = Edition
+        fields = ('href', 'id', 'book', 'edition_name', 'pub_date', 'extras',
                   'publisher', 'editors', 'translators')
         extra_kwargs = {
-            'url': {
-                'view_name': 'books:bookedition-detail',
+            'href': {
+                'view_name': 'books:books-editions-detail'
                 }
             }
 
 
-class CanonicalBookSerializer(serializers.HyperlinkedModelSerializer):
-    editions = EditionSerializer(many=True)
+class BookSerializer(serializers.HyperlinkedModelSerializer):
+    # editions = serializers.HyperlinkedRelatedField(
+    #     many=True,
+    #     read_only=True,
+    #     view_name='books:Edition-detail'
+    # )
+    editions = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=Edition.objects.all()
+    )
     authors = serializers.PrimaryKeyRelatedField(
         many=True,
         queryset=Author.objects.all()
     )
 
     class Meta:
-        model = CanonicalBook
-        fields = ('url', 'id', 'title', 'sub_title', 'authors', 'editions')
+        model = Book
+        fields = ('href', 'id', 'title', 'sub_title', 'authors', 'editions')
         extra_kwargs = {
-            'url': {
-                'view_name': 'books:canonicalbook-detail',
+            'href': {
+                'view_name': 'books:book-detail',
                 }
             }
 
@@ -69,9 +77,9 @@ class AuthorSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Author
-        fields = ('url', 'id', 'name', 'authored')
+        fields = ('href', 'id', 'name', 'authored')
         extra_kwargs = {
-            'url': {
+            'href': {
                 'view_name': 'books:author-detail',
                 }
             }
@@ -82,9 +90,9 @@ class PublisherSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Publisher
-        fields = ('url', 'id', 'name', 'published')
+        fields = ('href', 'id', 'name', 'published')
         extra_kwargs = {
-            'url': {
+            'href': {
                 'view_name': 'books:publisher-detail',
                 }
             }

@@ -16,7 +16,7 @@ class GetOrNoneManager(models.Manager):
 
 class Reader(models.Model):
     user = models.OneToOneField(User)
-    books = models.ForeignKey('BookEdition', related_name='reader')
+    books = models.ForeignKey('Edition', related_name='reader')
 
 
 # Register a reader when a user instance is created.
@@ -29,7 +29,7 @@ def create_reader(sender, **kw):
 post_save.connect(create_reader, sender=User)
 
 
-class CanonicalBook(models.Model):
+class Book(models.Model):
     title = models.CharField(max_length=200)
     sub_title = models.CharField(max_length=500)
     authors = models.ManyToManyField('Author',
@@ -40,8 +40,8 @@ class CanonicalBook(models.Model):
         return self.title
 
 
-class BookEdition(CanonicalBook):
-    book = models.ForeignKey('CanonicalBook', related_name='editions')
+class Edition(models.Model):
+    book = models.ForeignKey('Book', related_name='editions')
     edition_name = models.CharField(max_length=100, null=True)
     publisher = models.ForeignKey('Publisher', related_name='published')
     pub_date = models.DateField()
@@ -62,7 +62,7 @@ class BookEdition(CanonicalBook):
 
 
 class BookExtra(models.Model):
-    book = models.ForeignKey('BookEdition', related_name='extra')
+    book = models.ForeignKey('Edition', related_name='extra')
     key = models.CharField(max_length=20)
     val_text = models.TextField(blank=True, null=True)
     val_char = models.CharField(max_length=200, null=True)
@@ -91,8 +91,7 @@ class BookExtra(models.Model):
             been_set += 1
         elif self.char:
             been_set += 1
-        elif not boolean is True or not boolean is False:
-            been_set += 1
+        # TODO include a test for boolean
 
         if been_set is 1:
             return super(BookExtra, self).save(*args, **kwargs)
