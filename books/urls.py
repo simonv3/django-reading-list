@@ -13,8 +13,8 @@ router.register(r'books', api_views.BookViewSet)\
     #           parents_query_lookups=['book_id']
     #           )
 # router.register(r'bookedition', api_views.BookEditionViewSet)
-router.register(r'author', api_views.AuthorViewSet)
-router.register(r'publisher', api_views.PublisherViewSet)
+router.register(r'authors', api_views.AuthorViewSet)
+router.register(r'publishers', api_views.PublisherViewSet)
 
 urlpatterns = patterns(
     '',

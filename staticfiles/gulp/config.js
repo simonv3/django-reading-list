@@ -22,7 +22,7 @@ module.exports = {
 
   browserSync: {
     all: {
-      port: process.env.PORT || 3000,
+      port: process.env.PORT || 4000,
       // open browser window on start
       open: true
     },
