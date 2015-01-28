@@ -1,5 +1,16 @@
 from rest_framework import viewsets
-from rest_framework.renderers import JSONRenderer
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
+try:
+    from isbndb import utils as isbndb
+except ImportError as e:
+    isbndb_imported = False
+    isbndb_imported_error = e
+else:
+    isbndb_imported = True
+    from books.utils import process_isbndb_result
 
 from books.api.serializers import (BookSerializer,
                                    EditionSerializer,
@@ -39,3 +50,22 @@ class PublisherViewSet(viewsets.ModelViewSet):
     """
     queryset = Publisher.objects.all()
     serializer_class = PublisherSerializer
+
+
+@api_view(['GET'])
+def search_external(request, q):
+
+    if isbndb_imported:
+        result = isbndb.fetch_from_isbndb(q)
+        pks = process_isbndb_result(result)
+        books = Book.objects.filter(pk__in=pks)
+        serialized = BookSerializer(
+            books,
+            many=True,
+            context={'request': request}).data
+        return Response(serialized)
+        # return Response(BookSerializer(
+        #     books
+        # ).data)
+
+    return Response({}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

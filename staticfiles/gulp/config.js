@@ -2,8 +2,8 @@
 var dest = "build";
 var src = "client";
 
-var jsxSource = src + "/**/*.jsx";
-var jsxDestination = dest + "/js";
+var jsxSource = src + "/msx-views/**/*.jsx";
+var jsxDestination = src + "/js";
 var sassSource = src + "/scss/*.{sass,scss}";
 var sassDestination = dest + "/css";
 var assetsSource = src + "/assets/**";
@@ -90,7 +90,7 @@ module.exports = {
     // A separate bundle will be generated for each
     // bundle config in the list below
     bundleConfigs: [{
-      entries: './' + src + '/jsx/main.jsx',
+      entries: './' + src + '/js/index.js',
       dest: dest + '/js',
       outputName: 'app.js'
     }]

@@ -13,20 +13,21 @@ class GetOrNoneManager(models.Manager):
         except self.model.DoesNotExist:
             return None
 
+# TODO Move this to a reader app.
 
-class Reader(models.Model):
-    user = models.OneToOneField(User)
-    books = models.ForeignKey('Edition', related_name='reader')
+# class Reader(models.Model):
+#     user = models.OneToOneField(User)
+#     books = models.ForeignKey('Edition', related_name='reader')
 
 
-# Register a reader when a user instance is created.
-def create_reader(sender, **kw):
-    user = kw["instance"]
-    if kw["created"]:
-        reader = Reader(user=user)
-        reader.save()
+# # Register a reader when a user instance is created.
+# def create_reader(sender, **kw):
+#     user = kw["instance"]
+#     if kw["created"]:
+#         reader = Reader(user=user)
+#         reader.save()
 
-post_save.connect(create_reader, sender=User)
+# post_save.connect(create_reader, sender=User)
 
 
 class Book(models.Model):
@@ -36,6 +37,8 @@ class Book(models.Model):
                                      related_name='authored',
                                      null=True)
 
+    objects = GetOrNoneManager()
+
     def __unicode__(self):
         return self.title
 
@@ -44,7 +47,7 @@ class Edition(models.Model):
     book = models.ForeignKey('Book', related_name='editions')
     edition_name = models.CharField(max_length=100, null=True)
     publisher = models.ForeignKey('Publisher', related_name='published')
-    pub_date = models.DateField()
+    pub_date = models.DateField(null=True, blank=True)
     editors = models.ManyToManyField('Author',
                                      related_name='edited',
                                      null=True,
@@ -62,7 +65,7 @@ class Edition(models.Model):
 
 
 class BookExtra(models.Model):
-    book = models.ForeignKey('Edition', related_name='extra')
+    book = models.ForeignKey('Edition', related_name='extras')
     key = models.CharField(max_length=20)
     val_text = models.TextField(blank=True, null=True)
     val_char = models.CharField(max_length=200, null=True)
@@ -72,12 +75,12 @@ class BookExtra(models.Model):
         return "%s: %s" % self.key, str(self.get_value())
 
     def get_value(self):
-        if self.text:
-            return text
-        elif self.char:
-            return char
-        elif self.boolean:
-            return boolean
+        if self.val_text:
+            return self.val_text
+        elif self.val_char:
+            return self.val_char
+        elif self.val_bool:
+            return self.val_bool
 
     def save(self, *args, **kwargs):
         """
@@ -87,9 +90,9 @@ class BookExtra(models.Model):
         If everything is okay, pass on to the super save method.
         """
         been_set = 0
-        if self.text:
+        if self.val_text:
             been_set += 1
-        elif self.char:
+        elif self.val_char:
             been_set += 1
         # TODO include a test for boolean
 
@@ -100,6 +103,8 @@ class BookExtra(models.Model):
 
 
 class Author(models.Model):
+    # Stored by how the author writes it.
+
     name = models.CharField(max_length=200)
 
     def __unicode__(self):

@@ -111,11 +111,12 @@ USE_TZ = True
 # http://www.django-rest-framework.org/api-guide/settings/
 
 REST_FRAMEWORK = {
-    'URL_FIELD_NAME': 'href',  # Follow JSON API standard
+    # 'URL_FIELD_NAME': 'href',  # Follow JSON API standard
     'DEFAULT_RENDERER_CLASSES': (
         # 'rest_framework.renderers.JSONRenderer',
         "rest_framework_json_api.renderers.JsonApiRenderer",
-        "rest_framework.renderers.BrowsableAPIRenderer",
+        # 'rest_framework.renderers.JSONRenderer',
+        # "rest_framework.renderers.BrowsableAPIRenderer",
         # Any other renderers
     ),
     "DEFAULT_PARSER_CLASSES": (
