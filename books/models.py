@@ -13,22 +13,6 @@ class GetOrNoneManager(models.Manager):
         except self.model.DoesNotExist:
             return None
 
-# TODO Move this to a reader app.
-
-# class Reader(models.Model):
-#     user = models.OneToOneField(User)
-#     books = models.ForeignKey('Edition', related_name='reader')
-
-
-# # Register a reader when a user instance is created.
-# def create_reader(sender, **kw):
-#     user = kw["instance"]
-#     if kw["created"]:
-#         reader = Reader(user=user)
-#         reader.save()
-
-# post_save.connect(create_reader, sender=User)
-
 
 class Book(models.Model):
     title = models.CharField(max_length=200)

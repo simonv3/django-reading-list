@@ -6,7 +6,7 @@
 module.exports = function(endpoint, parameters){
   var url = '';
   if (endpoint === 'search/external'){
-    url = '/books/api/' + endpoint + '/' + parameters.q + '/';
+    url = '/api/' + endpoint + '/' + parameters.q + '/';
   }
   return url;
 };

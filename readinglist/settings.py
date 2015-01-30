@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     'allauth.socialaccount',
     'rest_framework',
     'books',
+    'readers',
     'core'
 )
 
