@@ -1,6 +1,6 @@
 # django-reading-list
 A New Reading List App
-![Reading List Image](https://www.dropbox.com/s/avwanlhjmr69uxl/Screenshot%202015-02-04%2011.01.08.png)
+![Reading List Image] (http://i.imgur.com/zP2w8t0.png)
 
 ## To Install
 
