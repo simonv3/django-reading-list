@@ -8,5 +8,11 @@ module.exports = function(endpoint, parameters){
   if (endpoint === 'search/external'){
     url = '/api/' + endpoint + '/' + parameters.q + '/';
   }
+  else{
+    url = '/api/' + endpoint + '/' + parameters.id + '/';
+  }
+  if (parameters.tags){
+    url += '?tags=' + parameters.tags;
+  }
   return url;
 };

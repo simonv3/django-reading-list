@@ -42,10 +42,17 @@ class Edition(models.Model):
                                          blank=True)
 
     def __unicode__(self):
-        return "%s %s" % self.book.title, self.edition_name
+        isbn13 = self.extras.get(key='isbn13').val_char
+        return "%s (%s)" % (self.book.title, isbn13)
 
     def get_key(self, key):
         return self.get(key, self.book.get(key))
+
+    def title(self):
+        return self.book.title
+
+    def authors(self):
+        return self.book.authors.all()
 
 
 class BookExtra(models.Model):

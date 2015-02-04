@@ -3,11 +3,17 @@
 <html>
 <head>
 	<title>Reading List</title>
-	<link href="{% static 'css/main.css' %}" rel='stylesheet'
+	<link href="{% static 'css/screen.css' %}" rel='stylesheet'
 		  type='text/css'>
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
 
 </head>
 <body>
+<script>
+	var USER_ID = {{request.user.reader.id}};
+	var CSRF_TOKEN = '{{csrf_token}}';
+</script>
 <script src="{% static 'js/vendor/mithril/mithril.min.js' %}"></script>
 <script src="{% static 'js/app.js' %}"></script>
 </body>

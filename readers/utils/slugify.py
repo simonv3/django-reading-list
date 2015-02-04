@@ -20,7 +20,7 @@ def _string_to_slug(s):
                                          ).encode('ascii', 'ignore')
     except:
         pass
-    return re.sub(r'[^a-z0-9-]+', '_', raw_data.lower()).strip('_')
+    return re.sub(r'[^a-z0-9-]+', '-', raw_data.lower()).strip('_')
 
 
 # as proposed by Archatas (http://www.djangosnippets.org/users/Archatas/)

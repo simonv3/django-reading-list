@@ -13,6 +13,7 @@ processJsonApi = function(){
   // results.linked.authors.
   var searchInLinked = function(linked_id){
     var self = this;
+    console.log(self);
     var wanted = self.filter(function(item){
       return item.id === linked_id;
     })[0];
@@ -40,11 +41,17 @@ processJsonApi = function(){
 
       }
     });
-    console.log(results.data);
     return results.data;
   };
+
+  // A really simplistic method. This can probably be elaborated
+  var readsEdition = function(results){
+    // var id = results.id;
+    // return results.linked.editions[0];
+  }
   return {
-    'searchResults': searchResults
+    'searchResults': searchResults,
+    'readsEdition': readsEdition,
   };
 };
 

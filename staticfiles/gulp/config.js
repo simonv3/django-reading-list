@@ -4,7 +4,7 @@ var src = "client";
 
 var jsxSource = src + "/msx-views/**/*.jsx";
 var jsxDestination = src + "/js";
-var sassSource = src + "/scss/*.{sass,scss}";
+var sassSource = src + "/scss/**/*.{sass,scss}";
 var sassDestination = dest + "/css";
 var assetsSource = src + "/assets/**";
 var assetsDestination = dest + "/assets";

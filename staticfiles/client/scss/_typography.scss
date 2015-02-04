@@ -11,6 +11,8 @@
  *  https://www.inkling.com/blog/2014/05/precision-baselines-sass-ebook-design/
  */
 
+@import "utils/fonts";
+
 // Remove all units from a number
 @function strip-units($number) {
  @return $number / ($number * 0 + 1);

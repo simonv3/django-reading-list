@@ -112,20 +112,20 @@ USE_TZ = True
 # http://www.django-rest-framework.org/api-guide/settings/
 
 REST_FRAMEWORK = {
-    # 'URL_FIELD_NAME': 'href',  # Follow JSON API standard
+    'URL_FIELD_NAME': 'href',  # Follow JSON API standard
     'DEFAULT_RENDERER_CLASSES': (
-        # 'rest_framework.renderers.JSONRenderer',
-        "rest_framework_json_api.renderers.JsonApiRenderer",
-        # 'rest_framework.renderers.JSONRenderer',
-        # "rest_framework.renderers.BrowsableAPIRenderer",
-        # Any other renderers
+        'rest_framework.renderers.JSONRenderer',
+        # "rest_framework_json_api.renderers.JsonApiRenderer",
+        # The below renderer should only be made live when debugging the
+        # Backend. Clients don't like it.
+        "rest_framework.renderers.BrowsableAPIRenderer",
     ),
-    "DEFAULT_PARSER_CLASSES": (
-        # "rest_framework_json_api.parsers.JsonApiParser",
-        "rest_framework.parsers.FormParser",
-        "rest_framework.parsers.MultiPartParser",
-        # Any other parsers
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     ),
+    'DEFAULT_FILTER_BACKENDS': (
+        'rest_framework.filters.DjangoFilterBackend',
+    )
 }
 
 # Static files (CSS, JavaScript, Images)
