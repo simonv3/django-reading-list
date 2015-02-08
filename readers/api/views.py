@@ -36,9 +36,13 @@ class SaveViewSet(viewsets.ModelViewSet):
             if reader == request.user.reader:
                 tag_slugs = request.data.get('tags', None)
                 tags = []
-                for tag_slug in tag_slugs:
-                    tags.append(Tag.objects.get_or_create(slug=tag_slug)[0])
-                print tags
+
+                def create_tag(tag):
+                    return Tag.objects.get_or_create(slug=tag)[0]
+
+                filtered_slugs = filter(lambda tag: tag, tag_slugs)
+                tags = map(create_tag, filtered_slugs)
+
                 saved, created = Save.objects.get_or_create(edition=edition,
                                                             reader=reader)
                 saved.tags = tags
