@@ -2,7 +2,7 @@
 A New Reading List App
 
 
-![Reading List Image](http://imgur.com/M7BnTCo)
+![Reading List Image](http://i.imgur.com/M7BnTCo.png)
 
 
 ## To Install
