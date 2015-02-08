@@ -17,6 +17,7 @@ var bookListModule = function(){
     this.title = m.prop(data.title);
     this.authors = m.prop(data.authors);
     this.summary = m.prop(data.summary);
+    this.tags = m.prop([]);
     this.id = m.prop(data.id);
     this.saveId = m.prop(data.saveId);
     this.editing = m.prop(false);
@@ -45,6 +46,7 @@ var bookListModule = function(){
               .then(function(response){
                 response.edition.saveId = response.id;
                 var book = new books.Book(response.edition);
+                book.tags(response.tags);
                 vm.books.push(book);
               });
           });
@@ -86,9 +88,15 @@ var bookListModule = function(){
               " by ",
               m("span", { class: "authors" }, [
                 book.authors().map(function(author, index){
-                  return author.name;
-                })]
-              ),
+                  var len = book.authors().length - 1;
+                  return author.name + ( len > index ? ", " : "");
+                })
+              ]),
+              m("span", { class: "tags" }, [
+                book.tags().map(function(tag, index){
+                  return m("span", tag.name);
+                })
+              ])
             ]),
             m("span", { class: "control" }, [
               m("i", { class:'fa fa-edit edit',
