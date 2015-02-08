@@ -82,6 +82,10 @@ input[type="submit"]{
   color: rgb(125, 16, 148);
   transition: .2s;
 
+  &.small{
+    font-size: .8rem;
+  }
+
   &:hover, &:focus{
     background-color: pink;
     outline: none;

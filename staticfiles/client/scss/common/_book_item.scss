@@ -15,8 +15,9 @@ category: books
 */
 
 .book-item{
-  transition: .2s background-color, .2s box-shadow;
-  margin-top: .5rem;
+  transition: .2s background-color,
+              .2s box-shadow,
+              .1s padding;
 
   .book-details{
     width: 85%;
@@ -34,17 +35,27 @@ category: books
   }
 
   .control{
-    cursor: pointer;
+    vertical-align: top;
     text-align: right;
     width: 14%;
     display: inline-block;
 
-    .edit, .delete{
+    .edit, .delete, .view{
       width: 2rem;
+      cursor: pointer;
     }
   }
 
   &.editing{
-    @include inset();
+    @include inset($inset-color);
+    border-style: dashed;
+
+    .edit{
+      color: $confirm-color;
+    }
+  }
+
+  &.viewing{
+    @include inset(lighten($inset-color, 7%));
   }
 }

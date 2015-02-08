@@ -1,3 +1,7 @@
+label{
+  display: block;
+}
+
 input[type="text"],
 input[type="search"]{
   vertical-align: top;
@@ -8,5 +12,10 @@ input[type="search"]{
   .search &{
     line-height: 2.125rem;
     width: 75%;
+  }
+
+  .add-tags &{
+    padding: .4rem .5rem;
+    width: 60%;
   }
 }

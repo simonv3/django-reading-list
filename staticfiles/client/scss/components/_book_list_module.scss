@@ -22,4 +22,19 @@ category: books
 .book-list{
   list-style: none;
   padding: 0;
+
+  .book-item{
+    margin-top: .5rem;
+  }
+
+  .editing{
+    .tags span.delete{
+      cursor: pointer;
+      width: 1rem;
+      text-align: center;
+    }
+    .mark-as-read{
+
+    }
+  }
 }

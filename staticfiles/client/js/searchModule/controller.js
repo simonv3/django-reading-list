@@ -9,6 +9,8 @@
    Builds a view with a search box and an input.
  */
 
+var bookDetailWidget = require('../widgets/book_detail.widget.js');
+
 var buildURL = require('../utils/buildURLs');
 var vndJSON = require('../utils/requestVndApiJson');
 var csrfToken = require('../utils/requestWithCSRFToken');
@@ -18,12 +20,12 @@ var searchModule = function(){
   var search = {};
 
   search.SearchResult = (function(data){
-    // This returns the actual book
     this.title = m.prop(data.title);
     this.editions = m.prop(data.editions);
     this.authors = m.prop(data.authors);
     this.summary = m.prop(data.summary);
     this.id = m.prop(data.id);
+    this.tags = undefined;
   });
 
   search.SearchResultList = Array;
@@ -75,7 +77,12 @@ var searchModule = function(){
       };
 
       vm.clearSearch = function(e){
-        vm.results = new search.SearchResultList();
+        // This is a bit of a hack, but there's a timeout because
+        // otherwise the blur would make the list disappear when the user
+        // has clicked on the list item.
+        setTimeout(function() {
+          vm.results = new search.SearchResultList();
+        }, 500);
       };
 
       vm.add = function(result) {
@@ -115,11 +122,7 @@ var searchModule = function(){
                         class: "book-item",
                         onclick: search.vm.add.bind(search.vm, result)
                       }, [
-                  m("span", { class: "title" }, result.title()),
-                  " by ",
-                  m("span", { class: "authors" }, [result.authors().map(function(author, index) {
-                    return author.name;
-                  })])
+                  bookDetailWidget(result)
                 ]);
             })
           ])

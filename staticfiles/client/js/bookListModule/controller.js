@@ -5,6 +5,10 @@
 
  */
 
+var bookDetailWidget = require('../widgets/book_detail.widget.js');
+var bookControlWidget = require('../widgets/book_control.widget.js');
+var bookReviewsWidget = require('../widgets/book_reviews.widget.js');
+
 var buildURL = require('../utils/buildURLs');
 var vndJSON = require('../utils/requestVndApiJson');
 var csrfToken = require('../utils/requestWithCSRFToken');
@@ -15,12 +19,15 @@ var bookListModule = function(){
 
   books.Book = (function(data){
     this.title = m.prop(data.title);
+    this.href = data.href; // Won't change
     this.authors = m.prop(data.authors);
     this.summary = m.prop(data.summary);
     this.tags = m.prop([]);
+    this.is_reading = m.prop(false);
     this.id = m.prop(data.id);
     this.saveId = m.prop(data.saveId);
     this.editing = m.prop(false);
+    this.viewing = m.prop(false);
   });
 
   books.BookList = Array;
@@ -46,12 +53,20 @@ var bookListModule = function(){
               .then(function(response){
                 response.edition.saveId = response.id;
                 var book = new books.Book(response.edition);
+
+                book.detailWidget = new bookDetailWidget();
+                book.detailWidget.vm.init(book);
+
                 book.tags(response.tags);
+                if (response.tags.length > 0){
+                  book.is_reading(response.tags.reduce(function(a, tag){
+                    return tag.slug === "currently-reading" || a;
+                  }, false));
+                }
                 vm.books.push(book);
               });
           });
         });
-
     };
 
     vm.add = function(object){
@@ -74,6 +89,16 @@ var bookListModule = function(){
 
     vm.edit = function(editingBook){
       editingBook.editing(!editingBook.editing());
+      editingBook.viewing(false);
+    };
+
+    vm.view = function(viewingBook){
+      viewingBook.editing(false);
+      viewingBook.viewing(!viewingBook.viewing());
+    };
+
+    vm.removeTag = function(viewingBook){
+
     };
 
     return vm;
@@ -82,31 +107,13 @@ var bookListModule = function(){
   books.view = function(controller) {
     return m("ul", {class:'book-list'}, [
       books.vm.books.map(function(book, index) {
-        return m("li", { class: "book-item" + (book.editing() ? " editing" : "" )}, [
-            m("span", { class: "book-details" }, [
-              m("span", { class: "title" }, [book.title()]),
-              " by ",
-              m("span", { class: "authors" }, [
-                book.authors().map(function(author, index){
-                  var len = book.authors().length - 1;
-                  return author.name + ( len > index ? ", " : "");
-                })
-              ]),
-              m("span", { class: "tags" }, [
-                book.tags().map(function(tag, index){
-                  return m("span", tag.name);
-                })
-              ])
-            ]),
-            m("span", { class: "control" }, [
-              m("i", { class:'fa fa-edit edit',
-                  onclick: books.vm.edit.bind(books.vm, book)
-                }),
-              m("i", { class:'fa fa-trash delete',
-                  onclick: books.vm.remove.bind(books.vm, book)
-                })
-            ])
-
+        return m("li", { class: "book-item" +
+                                (book.editing() ? " editing" : "") +
+                                (book.viewing() ? " viewing" : "") }, [
+            book.detailWidget.view(),
+            // bookDetailWidget(book),
+            bookControlWidget(book, books.vm),
+            bookReviewsWidget(book)
         ]);
       })
     ]);
