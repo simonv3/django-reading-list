@@ -1,0 +1,25 @@
+/*doc
+---
+title: Book List
+name: book-list
+category: books
+---
+```html_example
+    <ul class='book-list'>
+      <li class='book-item'>
+        <span class="title">Book Title</span>
+        <span class="authors">Jane Doe</span>
+      </li>
+      <li class='book-item'>
+        <span class="title">Book Title</span>
+        <span class="authors">Jane Doe</span>
+      </li>
+    </ul>
+```
+*/
+
+
+.book-list{
+  list-style: none;
+  padding: 0;
+}

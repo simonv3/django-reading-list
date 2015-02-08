@@ -1,0 +1,50 @@
+/*doc
+---
+title: Book Item
+name: book-item
+category: books
+---
+```html_example
+  <ul>
+    <li class='book-item'>
+      <span class="title">Book Title</span>
+      <span class="authors">Jane Doe</span>
+    </li>
+  </ul>
+```
+*/
+
+.book-item{
+  transition: .2s background-color, .2s box-shadow;
+  margin-top: .5rem;
+
+  .book-details{
+    width: 85%;
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .title{
+    font-weight: bold;
+    font-size: 1.2rem;
+    display: block;
+  }
+  .authors{
+    font-style: italic;
+  }
+
+  .control{
+    cursor: pointer;
+    text-align: right;
+    width: 14%;
+    display: inline-block;
+
+    .edit, .delete{
+      width: 2rem;
+    }
+  }
+
+  &.editing{
+    @include inset();
+  }
+}

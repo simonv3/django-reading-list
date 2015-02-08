@@ -74,6 +74,10 @@ var searchModule = function(){
         if (e.keyCode === 13) search.vm.performSearch();
       };
 
+      vm.clearSearch = function(e){
+        vm.results = new search.SearchResultList();
+      };
+
       vm.add = function(result) {
         var data = {
           'edition': result.editions()[0].id,
@@ -100,17 +104,20 @@ var searchModule = function(){
     return m("div", {class:"search"}, [
           m("input", {type:"search",
               onkeyup: search.vm.fireOnEnter,
+              onblur: search.vm.clearSearch,
               value: search.vm.searchQuery()}),
           m("input", {type:"submit",
               onclick: search.vm.performSearch,
               value:"Search"}),
-          m("ul", {class: search.vm.results.length > 0 ? "search_results" : ''}, [
+          m("ul", {class: search.vm.results.length > 0 ? "search-results" : ''}, [
             search.vm.results.map(function(result, index) {
-              return m("li",
-                       { onclick: search.vm.add.bind(search.vm, result) }, [
-                  m("span", { class:"title" }, result.title()),
-                  " - ",
-                  m("span", {class:"authors"}, [result.authors().map(function(author, index) {
+              return m("li", {
+                        class: "book-item",
+                        onclick: search.vm.add.bind(search.vm, result)
+                      }, [
+                  m("span", { class: "title" }, result.title()),
+                  " by ",
+                  m("span", { class: "authors" }, [result.authors().map(function(author, index) {
                     return author.name;
                   })])
                 ]);

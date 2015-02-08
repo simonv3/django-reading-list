@@ -1,0 +1,54 @@
+/*doc
+---
+title: Search
+name: search
+category: search
+---
+```html_example
+    <div class='search'>
+      <input type="search">
+      <input type="submit">
+      <ul class="search-results">
+        <li class="book-item">
+          <span class="title">Book Title</span>
+          <span class="authors">Book Author List</span>
+        </li>
+      </ul>
+    </div>
+```
+*/
+
+.search{
+  position: relative;
+  width: 100%;
+
+  input[type="submit"]{
+    width: 18%;
+  }
+
+  .search-results{
+    position: absolute;
+    background-color: white;
+    width: 80%;
+    border: 1px solid #d7d7d7;
+    border-top: none;
+    z-index: 1;
+    padding: 0;
+    list-style: none;
+    box-shadow: 0px 2px 3px #d7d7d7;
+    margin-top: 0;
+
+    li{
+      border-bottom: 1px solid #d7d7d7;
+      padding: .5rem 1rem;
+
+      &:last-child{
+        border: none;
+      }
+
+      &:hover{
+        background-color: #F0F0F0;
+      }
+    }
+  }
+}

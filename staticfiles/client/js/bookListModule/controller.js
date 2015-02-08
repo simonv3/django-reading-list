@@ -19,6 +19,7 @@ var bookListModule = function(){
     this.summary = m.prop(data.summary);
     this.id = m.prop(data.id);
     this.saveId = m.prop(data.saveId);
+    this.editing = m.prop(false);
   });
 
   books.BookList = Array;
@@ -69,25 +70,35 @@ var bookListModule = function(){
         });
     };
 
+    vm.edit = function(editingBook){
+      editingBook.editing(!editingBook.editing());
+    };
+
     return vm;
   }());
 
   books.view = function(controller) {
     return m("ul", {class:'book-list'}, [
       books.vm.books.map(function(book, index) {
-        return m("li", [
-            m("span", {class:"title"}, [book.title()]),
-            " - ",
-            m("span", {class:"authors"}, [
-              book.authors().map(function(author, index){
-                return author.name;
-              })]
-            ),
-            " ",
-            m("i",
-              { class:'fa fa-trash',
-                onclick: books.vm.remove.bind(books.vm, book)
-              })
+        return m("li", { class: "book-item" + (book.editing() ? " editing" : "" )}, [
+            m("span", { class: "book-details" }, [
+              m("span", { class: "title" }, [book.title()]),
+              " by ",
+              m("span", { class: "authors" }, [
+                book.authors().map(function(author, index){
+                  return author.name;
+                })]
+              ),
+            ]),
+            m("span", { class: "control" }, [
+              m("i", { class:'fa fa-edit edit',
+                  onclick: books.vm.edit.bind(books.vm, book)
+                }),
+              m("i", { class:'fa fa-trash delete',
+                  onclick: books.vm.remove.bind(books.vm, book)
+                })
+            ])
+
         ]);
       })
     ]);
