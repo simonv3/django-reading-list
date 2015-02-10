@@ -1,4 +1,5 @@
 staticfiles/build
+staticfiles/assets
 staticfiles/node_modules
 **/migrations*
 db.sqlite3

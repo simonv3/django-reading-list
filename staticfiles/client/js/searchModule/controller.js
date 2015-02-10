@@ -26,6 +26,8 @@ var searchModule = function(){
     this.summary = m.prop(data.summary);
     this.id = m.prop(data.id);
     this.tags = undefined;
+    this.detailWidget = new bookDetailWidget();
+    this.detailWidget.vm.init(this);
   });
 
   search.SearchResultList = Array;
@@ -122,7 +124,7 @@ var searchModule = function(){
                         class: "book-item",
                         onclick: search.vm.add.bind(search.vm, result)
                       }, [
-                  bookDetailWidget(result)
+                  result.detailWidget.view()
                 ]);
             })
           ])

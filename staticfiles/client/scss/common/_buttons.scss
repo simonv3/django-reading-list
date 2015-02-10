@@ -68,10 +68,10 @@ input[type="submit"],
   border: none;
   border-radius: $border-radius;
   padding: .5rem 1rem;
-  transition: .2s color,
-              .2s background-color,
-              .2s box-shadow,
-              .2s margin-top;
+  transition: .1s color,
+              .1s background-color,
+              .1s box-shadow,
+              .1s margin-top;
 
   &:hover,
   &:focus{

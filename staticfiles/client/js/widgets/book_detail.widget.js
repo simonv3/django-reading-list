@@ -11,7 +11,6 @@ var bookDetailWidget = function(){
   detail.vm = (function(){
     var vm = {};
     vm.init = function(book){
-      console.log('reset');
       vm.tagsInput = m.prop('');
       vm.book = book;
     };
@@ -65,7 +64,7 @@ var bookDetailWidget = function(){
   };
 
   var editTagsView = function(book){
-    if (book.editing()){
+    if (book.editing && book.editing()){
       return m("div", { class: "add-tags" }, [
         m("label", ["Add tags",
                     m("small", "(comma separated)"),

@@ -28,6 +28,9 @@ var bookListModule = function(){
     this.saveId = m.prop(data.saveId);
     this.editing = m.prop(false);
     this.viewing = m.prop(false);
+
+    this.detailWidget = new bookDetailWidget();
+    this.detailWidget.vm.init(this);
   });
 
   books.BookList = Array;
