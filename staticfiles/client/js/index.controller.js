@@ -45,6 +45,14 @@ index.vm = (function(){
 
 index.view = function(controller) {
   return m("div", {class: 'content index'}, [
+    m("div", { class: "account-menu" },
+        m("ul", m("li",
+          m("a", { href: '/accounts/logout/',
+                 class: 'btn btn-secondary' }, 'log out')
+          ))
+
+      ),
+
     m("h1", ["Reading List"]),
     m("h2", ["Currently Reading"]),
     index.vm.currentlyReadingSearch.view(),

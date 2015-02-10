@@ -4,28 +4,27 @@
  */
 
 // We only allow for inactive color
-@mixin button-colors($bg-color, $color: $white, $visited-color: $color) {
+@mixin button-colors($bg-color, $color: $white, $hover-color: $bg-color) {
   $dark-color: darken($bg-color, 20%);
 
-  border-width: 2px solid $bg-color;
+  box-shadow: 0px 3px 0px darken($bg-color, 20%);
   background-color: $bg-color;
 
   font-family: $support-font;
-  font-weight: bold;
 
   & {
     color: $color;
   }
 
-  &:visited {
-    color: $visited-color;
+  &:hover,
+  &:focus{
+    background-color: $hover-color;
+    color: darken($hover-color, 20%);
+    box-shadow: 0px -3px 0px darken($hover-color, 20%);
   }
 
-  &:hover,
-  &:active {
-    background-color: $dark-color;
-    border-color: $dark-color;
-    color: $color;
+  &:active{
+    box-shadow: 0px -3px 0px darken($hover-color, 20%);
   }
 }
 
@@ -50,54 +49,43 @@
 /* BEGIN STYLES */
 
 button,
-.btn {
-  @include inline-block;
-  // Skinny top and bottoms but wider buttons, relative to font size
-  padding: $input-padding;
+input[type="submit"],
+.btn{
+  $bg-color: rgb(255, 196, 254);
+  $font-color: rgb(125, 16, 148);
 
-  border: 1px solid;
-  border-radius: $border-radius;
-
-  text-align: center;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-button,
-.btn-primary {
-  @include button-colors(darken(red, 15%));
-}
-
-.btn-secondary {
-  @include button-colors($highlight-color);
-}
-
-input[type="submit"]{
-  box-shadow: 0px 3px 0px rgb(212, 118, 232);
-  border: none;
-  border-radius: 3px;
-  margin-left: 1rem;
-  background-color: rgb(255, 196, 254);
-  padding: .5rem 1rem;
-  color: rgb(125, 16, 148);
-  transition: .2s;
+  @include button-colors($bg-color, $font-color, pink);
 
   &.small{
     font-size: .8rem;
   }
 
-  &:hover, &:focus{
-    background-color: pink;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  display: inline-block;
+
+  border: none;
+  border-radius: $border-radius;
+  padding: .5rem 1rem;
+  transition: .2s color,
+              .2s background-color,
+              .2s box-shadow,
+              .2s margin-top;
+
+  &:hover,
+  &:focus{
     outline: none;
-    color: rgb(210, 51, 79);
-    box-shadow: 0px 3px 0px rgb(221, 87, 110);
+    margin-top: 3px;
   }
 
   &:active{
-    box-shadow: 0px -3px 0px rgb(221, 87, 110);
     margin-top: 3px;
     outline: none;
   }
+
 }
 
-
+.btn-secondary {
+  @include button-colors(grey);
+}

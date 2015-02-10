@@ -3,19 +3,17 @@ label{
 }
 
 input[type="text"],
-input[type="search"]{
+input[type="search"],
+input[type="password"],
+input[type="email"]{
   vertical-align: top;
   border: 1px solid #d7d7d7;
   border-radius: 3px;
   padding: .1rem .5rem;
+  line-height: 2.125rem;
+  width: 100%;
 
   .search &{
-    line-height: 2.125rem;
     width: 75%;
-  }
-
-  .add-tags &{
-    padding: .4rem .5rem;
-    width: 60%;
   }
 }

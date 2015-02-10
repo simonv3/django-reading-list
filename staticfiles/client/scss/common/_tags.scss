@@ -8,3 +8,14 @@
     font-size: .8rem;
   }
 }
+
+.add-tags{
+  input[type="text"]{
+    padding: .4rem .5rem;
+    width: 60%;
+    line-height: 1rem;
+  }
+  input[type="submit"]{
+    margin-left: .5rem;
+  }
+}

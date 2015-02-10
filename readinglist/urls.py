@@ -10,6 +10,8 @@ urlpatterns = patterns(
     url(r'^', include('readers.urls')),
 
     url(r'^admin/', include(admin.site.urls)),
+    (r'^accounts/logout/$', 'django.contrib.auth.views.logout',
+     {'next_page': '/'}),
     url(r'^accounts/', include('allauth.urls')),
 
     url(r'^', include('core.urls', namespace='core')),

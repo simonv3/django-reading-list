@@ -103,7 +103,7 @@
   }
 }
 
-@mixin inset($color) {
+@mixin inset($color: $inset-color) {
   box-shadow: inset 0px ($border-radius) darken($color, 5%);
   border: 1px solid darken($color, 5%);
   border-radius: $border-radius;

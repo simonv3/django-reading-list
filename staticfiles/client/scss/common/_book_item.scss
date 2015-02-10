@@ -47,7 +47,7 @@ category: books
   }
 
   &.editing{
-    @include inset($inset-color);
+    @include inset();
     border-style: dashed;
 
     .edit{
