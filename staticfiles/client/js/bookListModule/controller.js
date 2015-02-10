@@ -28,6 +28,7 @@ var bookListModule = function(){
     this.saveId = m.prop(data.saveId);
     this.editing = m.prop(false);
     this.viewing = m.prop(false);
+    this.savesHref = m.prop('');
 
     this.detailWidget = new bookDetailWidget();
     this.detailWidget.vm.init(this);
@@ -56,9 +57,7 @@ var bookListModule = function(){
               .then(function(response){
                 response.edition.saveId = response.id;
                 var book = new books.Book(response.edition);
-
-                book.detailWidget = new bookDetailWidget();
-                book.detailWidget.vm.init(book);
+                book.savesHref(response.href);
 
                 book.tags(response.tags);
                 if (response.tags.length > 0){

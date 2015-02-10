@@ -4,6 +4,7 @@
    Books are displayed in a fairly standard way.
 
  */
+var csrfToken = require('../utils/requestWithCSRFToken');
 
 var bookDetailWidget = function(){
   var detail = {};
@@ -35,16 +36,26 @@ var bookDetailWidget = function(){
         tags = vm.tagsInput().split(',')
                   .map(trimString)
                   .filter(filterEmptyString);
-        tags.forEach(vm.addTag);
+        var simpleTags = vm.book.tags().map(function(tag) { return tag.name });
+
+        console.log(simpleTags.concat(tags));
+        // vm.book.tags(vm.book.tags() + tags);
+        var data = {
+          tags: simpleTags.concat(tags),
+        };
+        m.request({ method: 'PATCH',
+                    url: vm.book.savesHref(),
+                    data: data,
+                    config: csrfToken
+                  })
+          .then(function(response){
+            console.log(response);
+          });
       }
     };
 
     vm.addTag = function(tag){
       console.log(vm.book.href);
-      // request({ method: 'POST',
-      //           url: '/api/tags/'
-
-      // })
     };
 
     return vm;

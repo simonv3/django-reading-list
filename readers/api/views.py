@@ -25,6 +25,25 @@ class SaveViewSet(viewsets.ModelViewSet):
     queryset = Save.objects.all()
     serializer_class = SaveSerializer
 
+    def partial_update(self, request, *args, **kwargs):
+        if 'tags' in request.data:
+            save = Save.objects.get(pk=kwargs['pk'])
+
+            def create_tag(tag):
+                return Tag.objects.get_or_create(name=tag)[0]
+
+            tags = map(create_tag, request.data['tags'])
+            save.tags = tags
+            save.save()
+            return Response(SaveSerializer(save,
+                                           context={'request': request}
+                                           ).data,
+                            status=status.HTTP_200_OK)
+
+        return super(SaveViewSet, self).partial_update(request,
+                                                       *args,
+                                                       **kwargs)
+
     def create(self, request):
         edition_id = request.data.get('edition', None)
         reader_id = request.data.get('reader', None)
