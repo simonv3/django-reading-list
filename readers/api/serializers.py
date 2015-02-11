@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
-from readers.models import (Save, Tag, Timeline, Reader)
+from readers.models import Save, Tag, Timeline, Reader
 from books.models import Edition
 from books.api.serializers import EditionSerializer
 
@@ -12,7 +12,7 @@ class TagSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Tag
-        fields = ('id', 'name', 'slug')
+        fields = ('href', 'id', 'name', 'slug')
 
 
 class TimelineSerializer(serializers.HyperlinkedModelSerializer):
@@ -52,6 +52,8 @@ class ReaderSerializer(serializers.HyperlinkedModelSerializer):
         tags_filter = self.context['request'].query_params.get('tags', None)
         if tags_filter:
             saves = saves.filter(tags__slug=tags_filter)
-        return NestedSaveSerializer(saves,
-                                    context={'request': self.context['request']},
-                                    many=True).data
+        return NestedSaveSerializer(
+            saves,
+            context={'request': self.context['request']},
+            many=True
+            ).data

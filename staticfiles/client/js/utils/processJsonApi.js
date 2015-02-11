@@ -48,7 +48,7 @@ processJsonApi = function(){
   var readsEdition = function(results){
     // var id = results.id;
     // return results.linked.editions[0];
-  }
+  };
   return {
     'searchResults': searchResults,
     'readsEdition': readsEdition,

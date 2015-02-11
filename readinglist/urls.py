@@ -8,6 +8,7 @@ urlpatterns = patterns(
     # url(r'^blog/', include('blog.urls')),
     url(r'^', include('books.urls')),
     url(r'^', include('readers.urls')),
+    url(r'^', include('reviews.urls')),
 
     url(r'^admin/', include(admin.site.urls)),
     (r'^accounts/logout/$', 'django.contrib.auth.views.logout',

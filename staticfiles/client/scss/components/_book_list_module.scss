@@ -37,4 +37,28 @@ category: books
 
     }
   }
+
+  .reviews{
+    list-style: none;
+    padding: 0;
+
+    li{
+      padding: 0;
+    }
+    .excerpt{
+      height: 6.5rem;
+      overflow: hidden;
+      box-shadow: inset 0 -2px 4px rgb(250, 250, 250);
+      padding: 1rem;
+      background: white;
+      transition: .5s;
+
+      &:hover{
+        height: 7.5rem;
+      }
+      &.reading{
+        height: 100%;
+      }
+    }
+  }
 }

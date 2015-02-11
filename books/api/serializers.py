@@ -62,10 +62,11 @@ class EditionSerializer(serializers.HyperlinkedModelSerializer):
         many=True
     )
     authors = NestedAuthorSerializer(many=True)
+    book = serializers.PrimaryKeyRelatedField(read_only=True)
 
     class Meta:
         model = Edition
-        fields = ('href', 'id', 'edition_name', 'pub_date', 'extras',
+        fields = ('href', 'id', 'book', 'edition_name', 'pub_date', 'extras',
                   'publisher', 'editors', 'translators', 'title', 'authors')
 
 
