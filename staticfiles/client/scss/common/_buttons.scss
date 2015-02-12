@@ -20,11 +20,11 @@
   &:focus{
     background-color: $hover-color;
     color: darken($hover-color, 20%);
-    box-shadow: 0px -3px 0px darken($hover-color, 20%);
+    box-shadow: 0px -2px 0px darken($hover-color, 20%);
   }
 
   &:active{
-    box-shadow: 0px -3px 0px darken($hover-color, 20%);
+    box-shadow: 0px -2px 0px darken($hover-color, 20%);
   }
 }
 
@@ -76,16 +76,16 @@ input[type="submit"],
   &:hover,
   &:focus{
     outline: none;
-    margin-top: 3px;
+    margin-top: 2px;
   }
 
   &:active{
-    margin-top: 3px;
+    margin-top: 2px;
     outline: none;
   }
 
 }
 
 .btn-secondary {
-  @include button-colors(grey);
+  @include button-colors($light-grey);
 }

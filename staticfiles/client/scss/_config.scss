@@ -15,11 +15,11 @@ $guide-color: #f1e8fd;
 
 /* COLORS */
 
-// Generic Grays/Whites/Darks
+// Generic Greys/Whites/Darks
 $black: #222;
-$dark-gray: #444;
-$gray: #999;
-$light-gray: #ccc;
+$dark-grey: #444;
+$grey: #999;
+$light-grey: #ccc;
 $whitesmoke: #fdfdfd;
 $white: #fff;
 
@@ -28,11 +28,11 @@ $white: #fff;
 
 // Application of palette
 $bg-color: $white;
-$text-color: $dark-gray;
+$text-color: $dark-grey;
 $brand-color: $whitesmoke;
 $brand-color-alt: $white;
 
-$highlight-color: $gray;
+$highlight-color: $grey;
 $error-color: darken(red, 15%);
 
 /* FORM CONFIGS */

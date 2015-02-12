@@ -16,6 +16,7 @@ var bookDetailWidget = function(){
       vm.book = book;
       vm.book.editing = m.prop(false);
       vm.book.viewing = m.prop(false);
+      vm.book.hidden = m.prop(false);
     };
 
     var trimString = function(string){
@@ -154,7 +155,7 @@ var bookDetailWidget = function(){
   detail.view = function(){
     return m("span", { class: "book-details" }, [
       m("span", { class: "title",
-                  // onclick: detail.vm.view.bind(detail.vm, detail.vm.book)
+                  onclick: detail.vm.view.bind(detail.vm, detail.vm.book)
                  }, [detail.vm.book.title()]),
       " by ",
       showAuthorsView(detail.vm.book),

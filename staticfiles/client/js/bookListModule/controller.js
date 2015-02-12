@@ -85,9 +85,15 @@ var bookListModule = function(){
         });
     };
 
+    var filterAgainst = function(comparitor, query){
+      var title = comparitor.toLowerCase();
+      query = query.toLowerCase();
+      return title.indexOf(query) !== -1;
+    }
+
     vm.filter = function(query){
       vm.books.forEach(function(book){
-        book.hidden(book.title().indexOf(query) !== -1 ? false : true);
+        book.hidden(!filterAgainst(book.title(), query));
       });
     }
 
