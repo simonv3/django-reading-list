@@ -3,7 +3,7 @@ $base-font: 'Source Sans Pro', Helvetica, Arial, sans-serif;
 $support-font: $base-font; // Often a serif
 $monospace-font: 'Source Code Pro', monospace;
 
-$base-font-size: 1em; // Equals 100%, 1rem, or roughly 16px
+$base-font-size: .9em; // Equals 100%, 1rem, or roughly 16px
 $base-line-height: 1.5;
 $rhythm-unit: $base-line-height / 2; // Makes math a lot easier
 
@@ -39,8 +39,13 @@ $error-color: darken(red, 15%);
 $input-padding: .5em 1em;
 
 /* GLOBAL STYLES */
-$border-radius: 2px;
 
+$inset-color: hsl(0,0,90);
+$border-radius: 3px;
+$tag-color: lighten($inset-color, 5%);
+
+$confirm-color: hsl(148, 70%, 44%);
+$delete-color: hsl(355, 62%, 54%);
 
 /*
   **********************

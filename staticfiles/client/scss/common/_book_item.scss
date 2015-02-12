@@ -20,7 +20,7 @@ category: books
               .1s padding;
 
   .book-details{
-    width: 85%;
+    width: 80%;
     display: inline-block;
     vertical-align: middle;
   }
@@ -29,6 +29,7 @@ category: books
     font-weight: bold;
     font-size: 1.2rem;
     display: block;
+    cursor: pointer;
   }
   .authors{
     font-style: italic;
@@ -37,8 +38,9 @@ category: books
   .control{
     vertical-align: top;
     text-align: right;
-    width: 14%;
     display: inline-block;
+    z-index: 1;
+    float: right;
 
     .edit, .delete, .view{
       width: 2rem;
@@ -57,5 +59,28 @@ category: books
 
   &.viewing{
     @include inset(lighten($inset-color, 7%));
+  }
+
+  &.hidden{
+    display: none;
+  }
+
+  .reviews{
+    font-size: .9rem;
+    h1{
+      font-size: 1rem;
+    }
+
+    ul{
+      list-style: none;
+      padding: 0;
+    }
+
+    li{
+      padding: 0;
+    }
+    .author{
+      font-style: italic;
+    }
   }
 }

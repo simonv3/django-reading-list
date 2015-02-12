@@ -32,7 +32,7 @@
    position: absolute;
    z-index: -1;
 
-   top:0;
+   top: 0;
    bottom: 0;
 
    display: block;
@@ -82,10 +82,10 @@ body {
 // Base header sizes off of scale.
 // Use ms(x) via modular-scale for these.
 $headings: (
-  h1: ms(5),
-  h2: ms(4),
-  h3: ms(3),
-  h4: ms(2),
+  h1: ms(4),
+  h2: ms(3),
+  h3: ms(2),
+  h4: ms(1),
   h5: ms(1),
   h6: ms(1),
 );

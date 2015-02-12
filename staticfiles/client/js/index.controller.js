@@ -17,7 +17,8 @@ index.controller = function() {
     tags: 'currently-reading'
   });
   index.vm.currentlyReadingSearch.vm.init({
-    selectedFunction: index.vm.currentlyReadingBookList.vm.add,
+    onSelectedFunction: index.vm.currentlyReadingBookList.vm.add,
+    onTypeFunction: index.vm.currentlyReadingBookList.vm.filter,
     tags: 'currently-reading'
   });
   index.vm.savedBookList.vm.init({
@@ -25,7 +26,8 @@ index.controller = function() {
     id: USER_ID
   });
   index.vm.savedSearch.vm.init({
-    selectedFunction: index.vm.savedBookList.vm.add
+    onSelectedFunction: index.vm.savedBookList.vm.add,
+    onTypeFunction: index.vm.savedBookList.vm.filter,
   });
 
 };
@@ -46,14 +48,14 @@ index.vm = (function(){
 index.view = function(controller) {
   return m("div", {class: 'content index'}, [
     m("div", { class: "account-menu" },
+      m("h1", ["Reading List"]),
         m("ul", m("li",
-          m("a", { href: '/accounts/logout/',
-                 class: 'btn btn-secondary' }, 'log out')
-          ))
+        m("a", { href: '/accounts/logout/',
+               class: 'btn btn-secondary' }, 'log out')
+        ))
 
       ),
 
-    m("h1", ["Reading List"]),
     m("h2", ["Currently Reading"]),
     index.vm.currentlyReadingSearch.view(),
     index.vm.currentlyReadingBookList.view(),

@@ -28,8 +28,6 @@ var bookListModule = function(){
     this.is_reading = m.prop(false);
     this.id = m.prop(data.id);
     this.saveId = m.prop(data.saveId);
-    this.editing = m.prop(false);
-    this.viewing = m.prop(false);
     this.savesHref = m.prop('');
 
     // This is a bad place for these to be.
@@ -73,11 +71,25 @@ var bookListModule = function(){
                     return tag.slug === "currently-reading" || a;
                   }, false));
                 }
+                book.hidden = m.prop(false);
                 vm.books.push(book);
+
+                var sortBooks = function(books){
+                  books.sort(function(a, b){
+                    return a.title() > b.title();
+                  })
+                }
+                sortBooks(vm.books);
               });
           });
         });
     };
+
+    vm.filter = function(query){
+      vm.books.forEach(function(book){
+        book.hidden(book.title().indexOf(query) !== -1 ? false : true);
+      });
+    }
 
     vm.add = function(object){
       var book = new books.Book(object);
@@ -125,12 +137,12 @@ var bookListModule = function(){
 
   books.view = function(controller) {
     return m("ul", {class:'book-list'}, [
-      books.vm.books.sort(function(a, b){
-        return a.title() > b.title();
-      }).map(function(book, index) {
+      books.vm.books.map(function(book, index) {
         return m("li", { class: "book-item" +
                                 (book.editing() ? " editing" : "") +
-                                (book.viewing() ? " viewing" : "") }, [
+                                (book.viewing() ? " viewing" : "") +
+                                (book.hidden() ? " hidden" : ""),
+                       }, [
             book.detailWidget.view(),
             bookControlWidget(book, books.vm),
             bookReviewsWidget(book)

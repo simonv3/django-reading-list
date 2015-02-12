@@ -32,8 +32,13 @@ category: account
 
 .account-menu{
   display: block;
-  height: 3rem;
+  height: 5rem;
   width: 100%;
+  margin-top: 1.25rem;
+
+  h1{
+    float: left;
+  }
 
   ul{
     float: right;

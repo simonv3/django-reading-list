@@ -14,6 +14,8 @@ var bookDetailWidget = function(){
     vm.init = function(book){
       vm.tagsInput = m.prop('');
       vm.book = book;
+      vm.book.editing = m.prop(false);
+      vm.book.viewing = m.prop(false);
     };
 
     var trimString = function(string){
@@ -24,15 +26,32 @@ var bookDetailWidget = function(){
       return string === '' ? false : true;
     };
 
-    vm.removeTag = function(index, book){
-      var self = this;
-      console.log(index, book);
-      m.request({ method: 'DELETE',
-                  url: this.href,
-                  config: csrfToken })
+    vm.view = function(book){
+      book.editing(false);
+      book.viewing(!book.viewing());
+    }
+
+    var sendTags = function(tags){
+      var data = {
+        tags: tags,
+      };
+      m.request({ method: 'PATCH',
+                  url: vm.book.savesHref(),
+                  data: data,
+                  config: csrfToken
+                })
         .then(function(response){
-          book.tags().splice(index, 1);
+          vm.book.tags(response.tags);
+          vm.tagsInput('');
         });
+    }
+
+    vm.removeTag = function(index, book){
+      tempTags = _.cloneDeep(book.tags());
+      tempTags.splice(index, 1);
+      sendTags(tempTags.map(function(tag) {
+                              return tag.name;
+                            }));
     };
 
     vm.processTags = function(e){
@@ -46,23 +65,8 @@ var bookDetailWidget = function(){
         var simpleTags = vm.book.tags().map(function(tag) {
                                               return tag.name;
                                             });
-        var data = {
-          tags: simpleTags.concat(tags),
-        };
-        m.request({ method: 'PATCH',
-                    url: vm.book.savesHref(),
-                    data: data,
-                    config: csrfToken
-                  })
-          .then(function(response){
-            vm.book.tags(response.tags);
-            vm.tagsInput('');
-          });
+        sendTags(simpleTags.concat(tags));
       }
-    };
-
-    vm.addTag = function(tag){
-      console.log(vm.book.href);
     };
 
     return vm;
@@ -111,39 +115,47 @@ var bookDetailWidget = function(){
   };
 
   var markAsReadView = function(book){
-    if (book.editing && book.reading && book.editing() && book.is_reading()){
-      return m("span", { class: 'mark-as-read' }, ["Done reading?"]);
-    }
+    // if (book.editing && book.reading && book.editing() && book.is_reading()){
+    //   return m("span", { class: 'mark-as-read' }, ["Done reading?"]);
+    // }
   };
 
   var inverseReading = function(){
-    console.log('inverting');
     this.reading(!this.reading());
   }
 
   var showReviewsView = function(book){
-    if (book.viewing && book.viewing()){
-      return m("ul", { class: "reviews" },
-        book.reviews().map(function(review, index){
-          return m("li", [
-            m("div", { class: "excerpt" + (review.reading() ? " reading" : ""),
-                       onclick: inverseReading.bind(review)
-                     }, review.excerpt),
-            m("a", { href: review.source_url,
-                     target: "_blank" },
-              [
-              "read more",
-              m("i", { class: "fa fa-external-link" })
-              ])
-            ]);
-        })
-      );
+    if (book.viewing && book.viewing() &&
+        book.reviews && book.reviews().length > 0){
+      return m("div", { class: "reviews" }, [
+        m("h1", "Reviews"),
+        m("ul", { class: "reviews" },
+          book.reviews().map(function(review, index){
+            return m("li", [
+              m("span", { class: "name", }, review.name),
+              " by ",
+              m("span", { class: "author", }, review.author),
+              " ",
+              m("a", { href: review.source_url,
+                       target: "_blank" },
+                [
+                "read review",
+                m("i", { class: "fa fa-external-link" })
+                ]),
+              " "
+              ]);
+
+          })
+        )
+      ]);
     }
   };
 
   detail.view = function(){
     return m("span", { class: "book-details" }, [
-      m("span", { class: "title" }, [detail.vm.book.title()]),
+      m("span", { class: "title",
+                  // onclick: detail.vm.view.bind(detail.vm, detail.vm.book)
+                 }, [detail.vm.book.title()]),
       " by ",
       showAuthorsView(detail.vm.book),
       markAsReadView(detail.vm.book),

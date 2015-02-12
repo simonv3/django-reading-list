@@ -8,7 +8,6 @@
 
 @import "shims";
 
-@import "utils/variables";
 @import "utils/mixins";
 @import "utils/placeholders";
 
@@ -39,12 +38,9 @@ category: basics
     <div class='example'>Amazing Style Guide coming soon...</div>
 ```
 */
-/*
-#main {
-  margin: 50px;
-  width: 150px;
-  height: 150px;
-  border-radius: 30px;
-  background: red;
-  transition: transform 1s;
-}*/
+
+body{
+  max-width: 640px;
+  margin: 0 auto;
+  min-height: 100%;
+}

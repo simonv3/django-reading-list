@@ -37,8 +37,12 @@ var searchModule = function(){
     var vm = {};
     vm.init = function(data){
 
-      if (data && data.selectedFunction){
-        vm.selectedFunction = data.selectedFunction;
+      if (data && data.onSelectedFunction){
+        vm.onSelectedFunction = data.onSelectedFunction;
+      }
+
+      if (data && data.onTypeFunction){
+        vm.onTypeFunction = data.onTypeFunction;
       }
 
       if (data && data.tags){
@@ -50,11 +54,17 @@ var searchModule = function(){
 
       // A slot to store the result string before it's searched for.
       vm.searchQuery = m.prop('');
+      vm.isSearching = m.prop(false);
+      vm.placeholder = m.prop(data.placeholder || 'Search For Books')
 
       vm.selectedResult = m.prop('');
 
       // Add the results.
       vm.performSearch = function() {
+        console.log('redrawing');
+        vm.isSearching(true);
+        // Figure out why this is needed and remove it:
+        m.redraw();
         vm.results = new search.SearchResultList();
         // Fetch the results and put them in the list.
         if (vm.searchQuery()) {
@@ -63,6 +73,7 @@ var searchModule = function(){
                       url: url
                       })
             .then(function(response){
+              vm.isSearching(false);
               response.forEach(function(result){
                 var searchResult = new search.SearchResult(result);
                 vm.results.push(searchResult);
@@ -75,7 +86,8 @@ var searchModule = function(){
       vm.fireOnEnter = function(e) {
         search.vm.searchQuery(e.target.value);
         e.preventDefault();
-        if (e.keyCode === 13) search.vm.performSearch();
+        vm.onTypeFunction(search.vm.searchQuery());
+        if (e.keyCode === 13) search.vm.performSearch(e);
       };
 
       vm.clearSearch = function(e){
@@ -88,12 +100,14 @@ var searchModule = function(){
       };
 
       vm.add = function(result) {
+
         var data = {
           'edition': result.editions()[0].id,
           'reader': USER_ID,
           'tags':[vm.tagsOnAdd]
         };
         vm.searchQuery('');
+
         m.request({ method: 'POST',
                     url: '/api/saves/',
                     data: data,
@@ -101,7 +115,7 @@ var searchModule = function(){
                   })
           .then(function(response){
             response.edition.saveId = response.id;
-            vm.selectedFunction(response.edition);
+            vm.onSelectedFunction(response.edition);
           });
         vm.results = new search.SearchResultList();
       };
@@ -109,23 +123,52 @@ var searchModule = function(){
     return vm;
   }());
 
+  var searchingIndicator = function(){
+    if (search.vm.isSearching() === true){
+      return m("li",
+             { class: "searching" },
+             [m("i", { class: "fa fa-spinner fa-spin"})]);
+    } else {
+      return '';
+    }
+  }
+
   search.view = function(controller) {
     return m("div", {class:"search"}, [
           m("input", {type:"search",
               onkeyup: search.vm.fireOnEnter,
               onblur: search.vm.clearSearch,
-              value: search.vm.searchQuery()}),
+              value: search.vm.searchQuery(),
+              placeholder: search.vm.placeholder()
+            }),
+
           m("input", {type:"submit",
               onclick: search.vm.performSearch,
               value:"Search"}),
-          m("ul", {class: search.vm.results.length > 0 ? "search-results" : ''}, [
+          m("small", { class: "input-extra" }, "Click search or press enter to search outside your saved books"),
+          m("ul", { class: "search-results" +
+                    (search.vm.results.length > 0 || search.vm.isSearching() ? " show" : '')},
+            [
+            searchingIndicator(),
             search.vm.results.map(function(result, index) {
               return m("li", {
                         class: "book-item",
                         onclick: search.vm.add.bind(search.vm, result)
                       }, [
-                  result.detailWidget.view()
-                ]);
+                      result.detailWidget.view()
+                  // m("span", { class: "book-details" }, [
+                  //   m("span", { class: "title",
+                  //               // onclick: detail.vm.view.bind(detail.vm, detail.vm.book)
+                  //              }, [result.title()]),
+                  //   " by ",
+                  //   m("span", { class: "authors" }, [
+                  //     result.authors().map(function(author, index){
+                  //       var len = result.authors().length - 1;
+                  //       return author.name + ( len > index ? ", " : "");
+                  //     })
+                  //   ])
+                  // ])
+                ])
             })
           ])
         ]);
