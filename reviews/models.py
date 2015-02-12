@@ -13,6 +13,8 @@ class Review(models.Model):
     book = models.ForeignKey(Book,
                              related_name='reviews')
     source_url = models.URLField()
+    name = models.CharField(max_length=255, blank=True)
+    author = models.CharField(max_length=255, blank=True)
     source = models.ForeignKey('ReviewSource',
                                null=True,
                                blank=True,
